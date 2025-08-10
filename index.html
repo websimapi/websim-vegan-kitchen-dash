@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no"
+    />
+    <title>Vegan Kitchen Dash</title>
+    <meta name="theme-color" content="#2b3a2f" />
+    <link rel="stylesheet" href="./styles.css" />
+
+    <!-- Import Map for ESM libraries -->
+    <script type="importmap">
+      {
+        "imports": {
+          "howler": "https://cdn.skypack.dev/howler@2.2.4"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div id="app">
+      <header class="topbar">
+        <div class="brand">
+          <img src="./logo.png" alt="Vegan Kitchen Dash logo" class="logo" />
+          <span class="title">Vegan Kitchen Dash</span>
+        </div>
+        <div class="stats">
+          <div class="stat"><span>Day</span><strong id="day">1</strong></div>
+          <div class="stat"><span>Score</span><strong id="score">0</strong></div>
+          <div class="stat hearts" id="hearts" aria-label="Lives"></div>
+        </div>
+      </header>
+
+      <main id="game">
+        <img src="./bg_kitchen.png" alt="" class="bg" aria-hidden="true" />
+
+        <section id="orders" aria-label="Orders queue"></section>
+
+        <section id="station" aria-label="Cooking station">
+          <div class="area pans">
+            <div class="pan-slot" data-slot="0">
+              <img src="./pan.png" alt="" class="pan" />
+              <div class="pan-contents"></div>
+              <div class="heat"></div>
+            </div>
+            <div class="pan-slot" data-slot="1">
+              <img src="./pan.png" alt="" class="pan" />
+              <div class="pan-contents"></div>
+              <div class="heat"></div>
+            </div>
+          </div>
+
+          <div class="area plates">
+            <div class="plate-slot" data-slot="0">
+              <img src="./plate.png" alt="" class="plate" />
+              <div class="plate-contents"></div>
+            </div>
+            <div class="plate-slot" data-slot="1">
+              <img src="./plate.png" alt="" class="plate" />
+              <div class="plate-contents"></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="pantry" aria-label="Ingredients">
+          <button class="ing" data-id="tofu">
+            <img src="./ingredient_tofu.png" alt="Tofu" />
+            <span>Tofu</span>
+          </button>
+          <button class="ing" data-id="broccoli">
+            <img src="./ingredient_broccoli.png" alt="Broccoli" />
+            <span>Broccoli</span>
+          </button>
+          <button class="ing" data-id="carrot">
+            <img src="./ingredient_carrot.png" alt="Carrot" />
+            <span>Carrot</span>
+          </button>
+          <button class="ing" data-id="mushroom">
+            <img src="./ingredient_mushroom.png" alt="Mushroom" />
+            <span>Mushroom</span>
+          </button>
+          <button class="ing" data-id="rice">
+            <img src="./ingredient_rice.png" alt="Rice" />
+            <span>Rice</span>
+          </button>
+          <button class="ing" data-id="sauce">
+            <img src="./ingredient_sauce.png" alt="Sauce" />
+            <span>Sauce</span>
+          </button>
+        </section>
+
+        <section id="actions" aria-label="Actions">
+          <button id="btnServe" class="primary">
+            <img src="./ui_serve.png" alt="" />
+            Serve
+          </button>
+          <button id="btnTrash" class="danger">
+            <img src="./ui_trash.png" alt="" />
+            Trash
+          </button>
+          <button id="btnPause" class="ghost">Pause</button>
+        </section>
+
+        <div id="drag-layer" aria-hidden="true"></div>
+
+        <div id="toast"></div>
+      </main>
+
+      <div id="overlay" class="overlay show">
+        <div class="card">
+          <h1>Vegan Kitchen Dash</h1>
+          <p>Serve tasty vegan bowls fast! Drag ingredients to pans to cook, then onto plates to assemble recipes. Tap Serve to match an order.</p>
+          <ul class="legend">
+            <li>Tofu Stir-Fry: tofu, broccoli, carrot, sauce</li>
+            <li>Mushroom Rice: mushroom, rice, sauce</li>
+            <li>Green Bowl: broccoli, rice, sauce</li>
+            <li>Savory Tofu Rice: tofu, rice, sauce</li>
+          </ul>
+          <button id="btnStart" class="primary xl">Start Day 1</button>
+        </div>
+      </div>
+
+      <footer class="bottombar">
+        <small>100% plant-based fun • Mobile-friendly • Drag & drop</small>
+      </footer>
+    </div>
+
+    <script type="module" src="./game.js"></script>
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"4c6229722a6346bc8eb5cb0e5eae5d41","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
+
