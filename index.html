@@ -20,7 +20,7 @@
     </script>
   </head>
   <body>
-    <div id="app">
+    <div id="app" class="density-auto">
       <header class="topbar">
         <div class="brand">
           <img src="./logo.png" alt="Vegan Kitchen Dash logo" class="logo" />
@@ -53,7 +53,7 @@
           </div>
 
           <div class="area plates">
-            <div class="plate-slot" data-slot="0">
+            <div class="plate-slot" data-slot="0" aria-label="Active plate (double-tap to serve, long-press to clear)">
               <img src="./plate.png" alt="" class="plate" />
               <div class="plate-contents"></div>
             </div>
@@ -94,13 +94,13 @@
         <section id="actions" aria-label="Actions">
           <button id="btnServe" class="primary">
             <img src="./ui_serve.png" alt="" />
-            Serve
+            <span class="label">Serve</span>
           </button>
           <button id="btnTrash" class="danger">
             <img src="./ui_trash.png" alt="" />
-            Trash
+            <span class="label">Trash</span>
           </button>
-          <button id="btnPause" class="ghost">Pause</button>
+          <button id="btnPause" class="ghost"><span class="label">Pause</span></button>
         </section>
 
         <div id="drag-layer" aria-hidden="true"></div>
@@ -111,7 +111,7 @@
       <div id="overlay" class="overlay show">
         <div class="card">
           <h1>Vegan Kitchen Dash</h1>
-          <p>Serve tasty vegan bowls fast! Drag ingredients to pans to cook, then onto plates to assemble recipes. Tap Serve to match an order.</p>
+          <p>Serve tasty vegan bowls fast! Drag to pans, then to plates. Double-tap active plate to Serve. Long-press active plate to clear.</p>
           <ul class="legend">
             <li>Tofu Stir-Fry: tofu, broccoli, carrot, sauce</li>
             <li>Mushroom Rice: mushroom, rice, sauce</li>
@@ -128,7 +128,6 @@
     </div>
 
     <script type="module" src="./game.js"></script>
-  <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"4c6229722a6346bc8eb5cb0e5eae5d41","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"9e33fc637b75c2fe","version":"2025.9.1","serverTiming":{"name":{"cfExtPri":true,"cfEdge":true,"cfOrigin":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"token":"4c6229722a6346bc8eb5cb0e5eae5d41","b":1}' crossorigin="anonymous"></script>
 </body>
 </html>
-

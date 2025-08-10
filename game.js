@@ -48,6 +48,10 @@ const state = {
 };
 
 function init() {
+  // Density: compact by default on small screens
+  applyDensity();
+  window.addEventListener("resize", debounce(applyDensity, 150));
+
   // Hearts
   renderHearts();
   // Orders UI
@@ -62,6 +66,7 @@ function init() {
       const id = btn.dataset.id;
       startDragFrom(btn, ING[id]);
       sfx.pop.play();
+      vibe(10);
     });
   });
 
@@ -71,15 +76,15 @@ function init() {
     zone.addEventListener("pointerleave", () => zone.classList.remove("drop-target"));
   });
 
-  $("#btnServe").addEventListener("click", serveClosestMatch);
-  $("#btnTrash").addEventListener("click", trashActivePlate);
+  $("#btnServe").addEventListener("click", () => { serveClosestMatch(); vibe(15); });
+  $("#btnTrash").addEventListener("click", () => { trashActivePlate(); vibe(15); });
   $("#btnPause").addEventListener("click", togglePause);
   $("#btnStart").addEventListener("click", () => {
     $("#overlay").classList.remove("show");
     startGame();
   });
 
-  // Drag cancel on blur (avoid double pointerup listeners that conflict with per-drag handler)
+  // Drag cancel on blur
   window.addEventListener("blur", endDrag);
 
   loop();
@@ -106,7 +111,7 @@ function startGame() {
 
 function togglePause() {
   state.running = !state.running;
-  $("#btnPause").textContent = state.running ? "Pause" : "Resume";
+  $("#btnPause").textContent = state.running ? "Resume" : "Pause";
   toast(state.running ? "Resumed" : "Paused");
 }
 
@@ -447,7 +452,7 @@ function toast(text) {
   t.textContent = text;
   t.classList.add("show");
   clearTimeout(t._to);
-  t._to = setTimeout(() => t.classList.remove("show"), 1200);
+  t._to = setTimeout(() => t.classList.remove("show"), 1100);
 }
 
 function intersect(a, b) {
@@ -464,20 +469,67 @@ function formatCookBadge(t) {
   return "🔥";
 }
 
-// Touch helpers: tap pan to move to plate 0, tap plate 0 to serve
+// Touch helpers: tap pan to move to plate 0, tap plate 0 to serve, long-press to clear
 function bindTapTransfers() {
   $$(".pan-slot").forEach(p => {
     p.addEventListener("click", () => {
       const idx = Number(p.dataset.slot);
       moveFromPanToPlate(idx, 0);
       stopCookingIfEmpty(idx);
+      vibe(8);
     });
   });
-  $$(".plate-slot").forEach(pl => {
-    pl.addEventListener("dblclick", () => {
-      if (Number(pl.dataset.slot) === 0) serveClosestMatch();
-    });
+  const plate0 = $(`.plate-slot[data-slot="0"]`);
+  plate0.addEventListener("dblclick", () => {
+    serveClosestMatch();
+    vibe(15);
   });
+
+  // Long-press to clear active plate
+  let lpTo = null;
+  const startLP = () => {
+    clearTimeout(lpTo);
+    lpTo = setTimeout(() => {
+      trashActivePlate();
+      vibe(25);
+    }, 650);
+    plate0.classList.add("hold");
+  };
+  const endLP = () => {
+    clearTimeout(lpTo);
+    plate0.classList.remove("hold");
+  };
+  plate0.addEventListener("pointerdown", startLP);
+  plate0.addEventListener("pointerup", endLP);
+  plate0.addEventListener("pointerleave", endLP);
+  plate0.addEventListener("pointercancel", endLP);
+
+  // Horizontal scroll hint for pantry on first load
+  setTimeout(() => {
+    if (!localStorage.getItem("hintPantry")) {
+      toast("Tip: swipe ingredients row");
+      localStorage.setItem("hintPantry", "1");
+    }
+  }, 1200);
+}
+
+// Light haptics on mobile
+function vibe(ms) {
+  try { if (navigator.vibrate) navigator.vibrate(ms); } catch {}
+}
+
+// Density helpers
+function applyDensity() {
+  const app = document.querySelector("#app");
+  if (window.innerWidth <= 480 || window.innerHeight <= 740) {
+    app.classList.add("compact");
+  } else {
+    app.classList.remove("compact");
+  }
+}
+
+function debounce(fn, wait = 100) {
+  let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), wait); };
 }
 
 document.addEventListener("DOMContentLoaded", () => {
