@@ -58,6 +58,7 @@ function init() {
   // Pantry buttons -> spawn draggable items
   $$("#pantry .ing").forEach(btn => {
     btn.addEventListener("pointerdown", e => {
+      e.preventDefault();
       const id = btn.dataset.id;
       startDragFrom(btn, ING[id]);
       sfx.pop.play();
@@ -78,9 +79,8 @@ function init() {
     startGame();
   });
 
-  // Drag cancel on escape/back
+  // Drag cancel on blur (avoid double pointerup listeners that conflict with per-drag handler)
   window.addEventListener("blur", endDrag);
-  window.addEventListener("pointerup", endDrag);
 
   loop();
 }
@@ -233,7 +233,10 @@ function startDragFrom(sourceEl, ing) {
   const up = (e) => {
     document.removeEventListener("pointermove", move);
     document.removeEventListener("pointerup", up);
-    dropAt(state.drag.x, state.drag.y, ing);
+    // Guard against external cancellations that may have cleared state.drag
+    if (!state.drag) return;
+    const { x, y } = state.drag;
+    dropAt(x, y, ing);
     endDrag();
   };
 
@@ -481,4 +484,3 @@ document.addEventListener("DOMContentLoaded", () => {
   init();
   bindTapTransfers();
 });
-
